@@ -39,8 +39,11 @@ public class LibroController {
     @PostMapping(value = "/libros/filtro" , produces = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Respuesta<List<LibroDTO>>> getListaLibroByFiltro(@RequestBody LibroDTO filtro) throws ExcepcionBase {
-        Integer idCategoria = filtro.getIdCategoria();
+        filtro.setIdCategoria(2);
+        Integer cate = filtro.getIdCategoria();
+
         List<LibroDTO> lista = libroServicio.getListaLibros(filtro);
+
         Respuesta<List<LibroDTO>> response = new Respuesta<>();
         response.setDatos(lista);
         return new ResponseEntity<Respuesta<List<LibroDTO>>>(response, HttpStatus.OK);

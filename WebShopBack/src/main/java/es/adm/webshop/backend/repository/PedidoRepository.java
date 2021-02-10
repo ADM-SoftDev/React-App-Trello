@@ -10,12 +10,4 @@ import java.util.Optional;
 public interface PedidoRepository  extends JpaRepository<PedidoEntity, Integer> {
 
     public PedidoEntity findByLocalizador(String localizador);
-
-   // public Optional<PedidoEntity> findById(Integer id);
-
-    //public PedidoEntity save(Optional<PedidoEntity> entity);
-
-    //public void delete(Optional<PedidoEntity> entityBD);
-
-
 }
