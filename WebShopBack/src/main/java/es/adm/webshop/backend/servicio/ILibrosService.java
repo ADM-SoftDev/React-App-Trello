@@ -10,5 +10,5 @@ public interface ILibrosService {
 
     public List<LibroDTO> getListaLibros(LibroDTO filtro) throws ExcepcionBase;
     public List<LibroDTO> getListaLibroTituloAutor(String filtro) throws ExcepcionBase;
-    public LibroDTO getFindById(Integer id)throws ExcepcionBase;
+    public LibroDTO getLibroById(Integer id) throws ExcepcionBase;
 }

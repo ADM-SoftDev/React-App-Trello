@@ -73,7 +73,7 @@ public class PedidoServicioImpl implements IPedidoService {
 
         Optional<PedidoEntity> entityOP = pedidoRepository.findById(idPedido);
         PedidoEntity result = entityOP.get();
-        if(entityOP != null){
+        if(entityOP.isPresent()){
             logger.warn("No se ha encontrado el registro con ese ID : " +idPedido);
             ExcepcionBase eb = new ExcepcionBase(Constantes.CODIGO_ERROR_ELEMENTO_NO_ENCONTRADO,
                     Constantes.MSJE_NO_EXISTE_REGISTRO, Integer.toString(idPedido));
@@ -132,7 +132,7 @@ public class PedidoServicioImpl implements IPedidoService {
 
         Optional <PedidoEntity> entityOP = pedidoRepository.findById(Idpedido);
         PedidoEntity entity = entityOP.get();
-        if(entityOP == null){
+        if(entityOP.isPresent()){
             logger.warn("No Existe Pedido, con ese registro : " + Idpedido);
             ExcepcionBase eb = new ExcepcionBase(Constantes.CODIGO_ERROR_ELEMENTO_NO_ENCONTRADO,
                     Constantes.MSJE_NO_EXISTE_REGISTRO, Integer.toString(Idpedido));
@@ -161,14 +161,15 @@ public class PedidoServicioImpl implements IPedidoService {
     public void deletePedido(Integer idPedido) throws ExcepcionBase {
 
         Optional <PedidoEntity> entityBD = pedidoRepository.findById(idPedido);
-        if(entityBD == null) {
+
+        if(entityBD.isPresent()) {
             logger.warn("No existe el registro, con ese : " +idPedido);
             ExcepcionBase eb = new ExcepcionBase( Constantes.CODIGO_ERROR_ELEMENTO_NO_ENCONTRADO,
                     Constantes.MSJE_NO_EXISTE_REGISTRO, Integer.toString(idPedido));
             throw eb;
         }
         try{
-            pedidoRepository.delete(entityBD);
+           pedidoRepository.deleteById(entityBD.get().getIdpedido());
         }catch (Exception e){
             logger.error(e.getMessage());
             ExcepcionBase eb = new ExcepcionBase(Constantes.CODIGO_ERROR_SERVIDOR,

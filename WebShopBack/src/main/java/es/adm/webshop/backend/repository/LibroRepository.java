@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface LibroRepository  extends JpaRepository<LibroEntity, Integer> {
@@ -20,8 +18,8 @@ public interface LibroRepository  extends JpaRepository<LibroEntity, Integer> {
             + "AND (:isbn is null OR lib.isbn like :isbn)"
             + "AND (:autor is null OR lib.autor like :autor)"
     )
-    public List<LibroEntity> findFiltered(@Param("idlibro") Integer idlibro,
-                                          @Param("id_categoria") Integer id_categoria,
+    public List<LibroEntity> findFiltered(@Param("id") Integer idlibro,
+                                          @Param("idCategoria") Integer id_categoria,
                                           @Param("titulo") String titulo,
                                           @Param("isbn") String isbn,
                                           @Param("autor") String autor

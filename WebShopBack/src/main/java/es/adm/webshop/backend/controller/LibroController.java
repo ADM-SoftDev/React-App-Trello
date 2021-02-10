@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:8080"})
+//@CrossOrigin(origins = {"http://localhost:8080"})
 public class LibroController {
 
     @Autowired
@@ -36,9 +36,10 @@ public class LibroController {
      * @return Libro, por Filtro
      * @throws ExcepcionBase
      */
-    @PostMapping(value = "/libro/filtro" , produces = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json")
+    @PostMapping(value = "/libros/filtro" , produces = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<Respuesta<List<LibroDTO>>> getListaLibroByFiltro(@RequestBody LibroDTO filtro) throws ExcepcionBase {
+        Integer idCategoria = filtro.getIdCategoria();
         List<LibroDTO> lista = libroServicio.getListaLibros(filtro);
         Respuesta<List<LibroDTO>> response = new Respuesta<>();
         response.setDatos(lista);
@@ -47,14 +48,14 @@ public class LibroController {
 
     /**
      * Obtener un  Libro a partir de su identificador
-     * @param id
+     * @param idlibro
      * @return un Libro por codigo recibido
      */
     @GetMapping(value="/libros/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Respuesta<LibroDTO>> getLibro(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<Respuesta<LibroDTO>> getLibro(@PathVariable(value = "id") Integer idlibro) {
         Respuesta<LibroDTO> response = new Respuesta<>();
         try {
-            LibroDTO libro = libroServicio.getFindById(id);
+            LibroDTO libro = libroServicio.getLibroById(idlibro);
             response.setDatos(libro);
             return new ResponseEntity<Respuesta<LibroDTO>>(response, HttpStatus.OK);
         } catch (ExcepcionBase e) {
@@ -69,14 +70,14 @@ public class LibroController {
 
     /**
      * Obtener una Lista de Libros a partir de su titulo o autor
-     * @param filtro
+     * @param valor
      * @return Lista de Libros, filtrado por su titulo o autor
      * @throws ExcepcionBase
      */
     @GetMapping(value="/libros/tituloAutor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Respuesta<List<LibroDTO>>> getFiltrarLibroTituloAutor(@RequestParam(name = "filtro") String filtro) throws ExcepcionBase{
+    public ResponseEntity<Respuesta<List<LibroDTO>>> getFiltrarLibroTituloAutor(@RequestParam(name = "valor") String valor) throws ExcepcionBase{
             Respuesta<List<LibroDTO>> response = new Respuesta<>();
-            List<LibroDTO> lista = libroServicio.getListaLibroTituloAutor(filtro);
+            List<LibroDTO> lista = libroServicio.getListaLibroTituloAutor(valor);
             response.setDatos(lista);
             return new ResponseEntity<Respuesta<List<LibroDTO>>>(response, HttpStatus.OK);
     }

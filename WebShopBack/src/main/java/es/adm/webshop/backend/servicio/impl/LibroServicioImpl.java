@@ -38,6 +38,7 @@ public class LibroServicioImpl implements ILibrosService {
      */
     @Override
     public List<LibroDTO> getListaLibros(LibroDTO filtro) throws ExcepcionBase {
+        Integer idCategoria = filtro.getIdCategoria();
         List<LibroEntity> lista = null;
         if(filtro != null){
             lista = libroRepo.findFiltered(
@@ -68,8 +69,6 @@ public class LibroServicioImpl implements ILibrosService {
         return resultado;
     }
 
-
-
     /**
      * Obtener un libro a partir de su identificador
      * @param id
@@ -77,15 +76,14 @@ public class LibroServicioImpl implements ILibrosService {
      * @throws ExcepcionBase
      */
     @Override
-    public LibroDTO getFindById(Integer id) throws ExcepcionBase {
-
+    public LibroDTO getLibroById(Integer id) throws ExcepcionBase {
         Optional <LibroEntity> entity = libroRepo.findById(id);
-        if(entity != null){
+        if(entity.isPresent()){
             logger.warn("No existe el registro :" + id);
             ExcepcionBase eb = new ExcepcionBase(
                     Constantes.CODIGO_ERROR_ELEMENTO_NO_ENCONTRADO, Constantes.MSJE_NO_EXISTE_REGISTRO, Integer.toString(id)
             );
-        throw eb;
+            throw eb;
         }
         return (LibroDTO) LibroMapper.toLibroDto(entity);
     }

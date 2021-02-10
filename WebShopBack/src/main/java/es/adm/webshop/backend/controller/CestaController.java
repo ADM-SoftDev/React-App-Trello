@@ -24,7 +24,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:8080"})
+//@CrossOrigin(origins = {"http://localhost:8080"})
 public class CestaController {
 
     @Autowired
@@ -99,16 +99,22 @@ public class CestaController {
     public ResponseEntity<Respuesta<CestaDTO>> updateItemsCesta(@PathVariable(name="localizador") String localizador, @RequestBody ItemCestaDTO item)throws ExcepcionBase {
 
         CestaDTO cesta = null;
+
+        Respuesta<CestaDTO> respuesta = new Respuesta<>();
         ItemCestaDTO itemBD = null;
         LibroDTO libro = null;
-        Respuesta<CestaDTO> respuesta = new Respuesta<>();
         try {
 
 
             if (CestaController.carritoCompra.containsKey(localizador)) {
                 CestaController.carritoCompra.get(localizador);
-                libro = libroServicio.getFindById(item.getLibro().getIdLibro());
-                itemBD = buscarItem(cesta, item.getLibro().getIdLibro());
+                Integer idLibro = item.getLibro().getIdLibro();
+                libro = libroServicio.getLibroById(
+                        item.getLibro().getIdLibro());
+                //libro = libroServicio.getFindById(item.getLibro().getIdLibro());
+                itemBD = buscarItem(cesta,
+                        item.getLibro().getIdLibro());
+                //itemBD = buscarItem(cesta, item.getLibro().getIdLibro());
 
                 if (item == null && item.getUnidades() > 0) {
                     itemBD = new ItemCestaDTO();
